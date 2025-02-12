@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cinepolis</title>
+    <style>
+        
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #0a2e8a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+
+        
+        .white-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 800px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #0a2e8a; 
+        }
+
+        .form-container {
+            display: flex;
+            gap: 20px;
+        }
+
+        .form-section {
+            flex: 1;
+        }
+
+        .form-section label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .form-section input[type="text"],
+        .form-section input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .form-check {
+            margin-bottom: 10px;
+        }
+
+        .form-check-label {
+            margin-left: 5px;
+        }
+
+        .actions {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .actions input[type="submit"] {
+            padding: 10px 20px;
+            margin: 0 10px;
+            cursor: pointer;
+            background-color: #0a2e8a; 
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        
+    </style>
+</head>
+<body>
+    
+    <div class="white-container">
+        <h1>CINEPOLIS</h1>
+        <form action="/entradas" method="post">
+            <div class="form-container">
+                
+                <div class="form-section">
+                    <p>Entradas</p>
+                    <label>NOMBRE:</label>
+                    <input type="text" name="nombres" required><br>
+                    <label>CANTIDAD COMPRADORES:</label>
+                    <input type="number" name="compradoresC" min="1" required><br>
+                    <label>TARJETA CINECO:</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="tarjeta" value="no" checked>
+                        <label class="form-check-label">Efectivo</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="tarjeta" value="si">
+                        <label class="form-check-label">Tarjeta Cineco</label>
+                    </div>
+                    <label>CANTIDAD DE BOLETOS:</label>
+                    <input type="number" name="boletos" min="1" required><br>
+                </div>
+
+                
+                <div class="form-section">
+                    <p>Salidas</p>
+                    <label>VALOR A PAGAR:</label>
+                    <input type="text" name="valorPago" value="{{ valorPago }}" readonly>
+                </div>
+            </div>
+
+            
+            <div class="actions">
+                <input type="submit" name="proceso" value="procesar">
+                <input type="submit" name="proceso" value="salir">
+            </div>
+        </form>
+    </div>
+</body>
+</html>
