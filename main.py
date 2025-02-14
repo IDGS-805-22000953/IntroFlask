@@ -1,6 +1,28 @@
 from flask import Flask,render_template, request
 
+import forms
+
+
+
+
 app=Flask(__name__)
+
+
+@app.route("/alumnos", methods = ["GET", "POST"])
+def alumnos():
+    mat=""
+    nom=""
+    ape=""
+    email=""
+    alumno_clase=forms.UserForm(request.form)
+    if request.method=="POST":
+        mat = alumno_clase.matricula.data
+        nom = alumno_clase.nombre.data
+        ape = alumno_clase.Apellido.data
+        email = alumno_clase.email.data
+        print('Nombre: {}'.format(nom))
+    return render_template("Alumnos.html", form=alumno_clase)
+
 
 @app.route("/")
 def index():
@@ -88,36 +110,37 @@ def cine():
 def entrada():
     if request.method == "POST":
         try:
-           
             compradoresC = int(request.form.get("compradoresC", 0))
             boletos = int(request.form.get("boletos", 0))
             metodo_pago = request.form.get("tarjeta")  
             proceso = request.form.get("proceso")
 
             if proceso == "procesar":
+                max_boletos_permitidos = 7 * compradoresC
+
+                if boletos > max_boletos_permitidos:
+                    return render_template("cine.html", valorPago="Error: Excede el límite de boletos permitidos.")
+
                 precio_unitario = 12
                 total_global = boletos * precio_unitario
 
-                
-                if boletos <= 7 * compradoresC:
-                    if 3 <= boletos <= 5:
-                        total_global -= total_global * 0.10  
-                    elif boletos >= 6:
-                        total_global -= total_global * 0.15  
+                if 3 <= boletos <= 5:
+                    total_global -= total_global * 0.10  
+                elif boletos >= 6:
+                    total_global -= total_global * 0.15  
 
-                
                 if metodo_pago == "si":
                     total_global -= total_global * 0.10 
 
-              
                 total_global = round(total_global, 2)
 
                 return render_template("cine.html", valorPago=total_global)
 
         except ValueError:
-            return "Error: Ingrese valores numéricos válidos para compradores y boletos."
+            return render_template("cine.html", valorPago="Error: Ingrese valores numéricos válidos para compradores y boletos.")
 
     return render_template("cine.html", valorPago=0)
+
 
             
             

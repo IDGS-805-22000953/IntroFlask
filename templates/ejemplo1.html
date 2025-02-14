@@ -1,6 +1,10 @@
-{% extends "layaout.html"%} {%block container%}
+{% extends "layaout.html"%} 
+{% block container %}
+{%import "_macros.html" as macros%}
 
-<body>
     <h1>Ejemplo1</h1>
-</body>
+    macros.datos("Nombre","Nombre")
+    {{macros.datos("Nombre","Nombre")}}
+    {{macros.datos("Nombre","Password","Password")}}
+
 {%endblock%}
