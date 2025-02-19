@@ -1,5 +1,5 @@
 from flask import Flask,render_template, request
-
+from datetime import datetime
 import forms
 
 
@@ -15,14 +15,62 @@ def alumnos():
     ape=""
     email=""
     alumno_clase=forms.UserForm(request.form)
-    if request.method=="POST":
+    if request.method=="POST" and alumno_clase.validate():
         mat = alumno_clase.matricula.data
         nom = alumno_clase.nombre.data
-        ape = alumno_clase.Apellido.data
+        ape = alumno_clase.apellido.data
         email = alumno_clase.email.data
         print('Nombre: {}'.format(nom))
-    return render_template("Alumnos.html", form=alumno_clase)
+    return render_template("Alumnos.html", form=alumno_clase,mat=mat,nom=nom,ape=ape,email=email)
 
+@app.route("/zodiaco", methods=["GET", "POST"])
+def zodiaco():
+    nom = ""
+    apePa = ""
+    apeMa = ""
+    genero = ""
+    edad = 0
+    signo = ""
+    
+   
+    zodiaco_clase = forms.ZodiacoForm(request.form)
+
+    if request.method == "POST" and zodiaco_clase.validate():
+       
+        nom = zodiaco_clase.nombre.data
+        apePa = zodiaco_clase.apellidoPa.data
+        apeMa = zodiaco_clase.apellidoMa.data
+        genero = zodiaco_clase.genero.data
+
+        try:
+            
+            dia = int(zodiaco_clase.dia.data)
+            mes = int(zodiaco_clase.mes.data)
+            anio = int(zodiaco_clase.anio.data)
+
+            fecha_nac = datetime(anio, mes, dia)
+
+            
+            hoy = datetime.now()
+            edad = hoy.year - fecha_nac.year
+            if (hoy.month, hoy.day) < (fecha_nac.month, fecha_nac.day):
+                edad -= 1
+
+            
+            animales = [
+                "Rata", "Buey", "Tigre", "Conejo", "Dragón", 
+                "Serpiente", "Caballo", "Cabra", "Mono", 
+                "Gallo", "Perro", "Cerdo"
+            ]
+            indice = (fecha_nac.year - 1900) % 12
+            signo = animales[indice]
+
+        except ValueError:
+            
+            pass
+
+    return render_template("zodiacoChino.html",form=zodiaco_clase,nom=nom,apePa=apePa,apeMa=apeMa,genero=genero,edad=edad,signo=signo
+    )
 
 @app.route("/")
 def index():
