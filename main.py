@@ -41,16 +41,14 @@ def zodiaco():
         apePa = zodiaco_clase.apellidoPa.data
         apeMa = zodiaco_clase.apellidoMa.data
         genero = zodiaco_clase.genero.data
+        dia = zodiaco_clase.dia.data  
+        mes = zodiaco_clase.mes.data  
+        anio = zodiaco_clase.anio.data  
 
         try:
-            
-            dia = int(zodiaco_clase.dia.data)
-            mes = int(zodiaco_clase.mes.data)
-            anio = int(zodiaco_clase.anio.data)
 
             fecha_nac = datetime(anio, mes, dia)
 
-            
             hoy = datetime.now()
             edad = hoy.year - fecha_nac.year
             if (hoy.month, hoy.day) < (fecha_nac.month, fecha_nac.day):

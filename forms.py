@@ -13,14 +13,18 @@ class ZodiacoForm(Form):
     apellidoMa = StringField('Apellido Materno', [
         validators.DataRequired(message='El campo es requerido')
     ])
-    dia = StringField('Día', [
-        validators.DataRequired(message='El campo es requerido')
+    dia = IntegerField('Día', [
+        validators.DataRequired(message='El campo es requerido'),
+        validators.NumberRange(min=1, max=31, message='El día debe estar entre 1 y 31.')
     ])
-    mes = StringField('Mes', [
-        validators.DataRequired(message='El campo es requerido')
+    mes = IntegerField('Mes', [
+        validators.DataRequired(message='El campo es requerido'),
+        validators.NumberRange(min=1, max=12, message='El mes debe estar entre 1 y 12.')
+        
     ])
-    anio = StringField('Año', [
-        validators.DataRequired(message='El campo es requerido')
+    anio = IntegerField('Año', [
+        validators.DataRequired(message='El campo es requerido'),
+        validators.NumberRange(min=1900, max=2025, message='El año debe estar entre 1900 y 2025.')
     ])
     genero = SelectField('Género', choices=[
         ('masculino', 'Masculino'),
