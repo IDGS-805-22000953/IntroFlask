@@ -1,15 +1,35 @@
 from flask import Flask,render_template, request
 from datetime import datetime
+from flask import g
+from flask import flash
+from flask_wtf.csrf import CSRFProtect
 import forms
 
 
 
-
 app=Flask(__name__)
+app.secret_key='negros'
+csrf=CSRFProtect()
 
+@app.errorhandler(404)
+def page_not_found(e):
+        return render_template('404.html'), 404
+    
+@app.before_request
+def before_request():
+    g.nombre="Mario"
+    print('before 1')
+    
+@app.after_request
+def after_request(response):
+    print('after 1')
+    return response
+    
+    
 
 @app.route("/alumnos", methods = ["GET", "POST"])
 def alumnos():
+    #print("alumno {}".format(g.nombre))
     mat=""
     nom=""
     ape=""
@@ -20,7 +40,9 @@ def alumnos():
         nom = alumno_clase.nombre.data
         ape = alumno_clase.apellido.data
         email = alumno_clase.email.data
-        print('Nombre: {}'.format(nom))
+        # print('Nombre: {}'.format(nom))
+        mensaje='bienvenido {}'.format(nom)
+        flash(mensaje)
     return render_template("Alumnos.html", form=alumno_clase,mat=mat,nom=nom,ape=ape,email=email)
 
 @app.route("/zodiaco", methods=["GET", "POST"])
@@ -190,14 +212,14 @@ def entrada():
 
             
             
-            
-            
+
         
         
 
 
 
 if __name__=="__main__":
+    csrf.init_app(app)
     app.run(debug=True,port=3000)
 
 
